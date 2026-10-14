@@ -1,15 +1,82 @@
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+package Prak303_2510817310011_MuhammadHafi;
+
+import java.util.ArrayList;
+import java.util.Scanner;
+
 public class Main {
     public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
+        Scanner input = new Scanner(System.in);
+        ArrayList<Mahasiswa> listMahasiswa = new ArrayList<>();
 
-        for (int i = 1; i <= 5; i++) {
-            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-            System.out.println("i = " + i);
+        while (true) {
+            System.out.println("Menu:");
+            System.out.println("1. Tambah Mahasiswa");
+            System.out.println("2. Hapus Mahasiswa berdasarkan NIM");
+            System.out.println("3. Cari Mahasiswa berdasarkan NIM");
+            System.out.println("4. Tampilkan Daftar Mahasiswa");
+            System.out.println("0. Keluar");
+            System.out.print("Pilihan: ");
+
+            String pilihanStr = input.nextLine().trim();
+            if (pilihanStr.isEmpty()) continue;
+            int pilihan = Integer.parseInt(pilihanStr);
+
+            if (pilihan == 1) {
+                System.out.print("Masukkan Nama Mahasiswa: ");
+                String nama = input.nextLine();
+                System.out.print("Masukkan NIM Mahasiswa (bebas): ");
+                String nim = input.nextLine().trim();
+
+                listMahasiswa.add(new Mahasiswa(nama, nim));
+                System.out.println("Mahasiswa " + nama + " ditambahkan.");
+
+            } else if (pilihan == 2) {
+                System.out.print("Masukkan NIM Mahasiswa yang akan dihapus: ");
+                String nimHapus = input.nextLine().trim();
+                boolean ditemukan = false;
+
+                for (int i = 0; i < listMahasiswa.size(); i++) {
+                    if (listMahasiswa.get(i).getNim().equalsIgnoreCase(nimHapus)) {
+                        listMahasiswa.remove(i);
+                        ditemukan = true;
+                        System.out.println("Mahasiswa dengan NIM " + nimHapus + " dihapus.");
+                        break;
+                    }
+                }
+
+                if (!ditemukan) {
+                    System.out.println("Mahasiswa dengan NIM " + nimHapus + " tidak ditemukan.");
+                }
+
+            } else if (pilihan == 3) {
+                System.out.print("Masukkan NIM Mahasiswa yang dicari: ");
+                String nimCari = input.nextLine().trim();
+                boolean ditemukan = false;
+
+                for (Mahasiswa m : listMahasiswa) {
+                    if (m.getNim().equalsIgnoreCase(nimCari)) {
+                        System.out.println("NIM: " + m.getNim() + ", Nama: " + m.getNama());
+                        ditemukan = true;
+                        break;
+                    }
+                }
+
+                if (!ditemukan) {
+                    System.out.println("Mahasiswa dengan NIM " + nimCari + " tidak ditemukan.");
+                }
+
+            } else if (pilihan == 4) {
+                System.out.println("Daftar Mahasiswa:");
+                for (Mahasiswa m : listMahasiswa) {
+                    System.out.println("NIM: " + m.getNim() + ", Nama: " + m.getNama());
+                }
+
+            } else if (pilihan == 0) {
+                listMahasiswa.clear();
+                System.out.println("Terima kasih!");
+                break;
+            }
         }
+        input.close();
     }
 }
